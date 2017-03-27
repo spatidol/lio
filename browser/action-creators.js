@@ -1,36 +1,29 @@
 import 'whatwg-fetch';
-export const RECEIVE_BRUNCH_PLACES = 'RECEIVE_BRUNCH_PLACES';
-export const SELECT_BRUNCH = 'SELECT_BRUNCH';
-export const SELECT_PHOTO = 'SELECT_PHOTO';
+export const RECEIVE_LIOS = 'RECEIVE_LIOS';
+export const SELECT_LIO = 'SELECT_LIO';
 
 
 
 ////////sync action creators
-const receiveBrunchPlaces = function (brunchplaces) {
+const receiveLios = function (lios) {
   return {
-    type: RECEIVE_BRUNCH_PLACES,
-    receivedBrunchPlaces: brunchplaces
+    type: RECEIVE_LIOS,
+    receivedLios: lios
   };
 };
 
 
-const selectBrunch = function (brunch) {
+const selectLio = function (lio) {
   return {
-    type: SELECT_BRUNCH,
-    selectedBrunch: brunch,
+    type: SELECT_LIO,
+    selectedLio: lio,
   };
 };
 
-export const selectPhoto = function (photo) {
-  return {
-    type: SELECT_PHOTO,
-    selectedPhoto: photo,
-  };
-};
 
 /////////thunk action creators
 
-export const loadBrunchPlaces = function (location) {
+export const loadLios = function (location) {
   return function (dispatch) {
     fetch(`/api/brunchplaces/${location.params.location}`)
       .then(res => res.json())
@@ -41,7 +34,7 @@ export const loadBrunchPlaces = function (location) {
   };
 };
 
-export const loadOneBrunch = function (brunchId) {
+export const loadLio = function (brunchId) {
   return function (dispatch) {
     fetch(`/api/brunchplace/${brunchId}`)
       .then(res => res.json())
@@ -52,17 +45,3 @@ export const loadOneBrunch = function (brunchId) {
   };
 };
 
-export const loadPhoto = function (brunchId) {
-  return function (dispatch) {
-    fetch(`/api/brunchplace/${brunchId}`)
-      .then(res => res.json())
-      .then(brunch => {
-        if(brunch.result.photos) {
-        return dispatch(selectPhoto(brunch.result.photos[1].photo_reference));
-        } else {
-          return dispatch(selectPhoto(null))
-        }
-      })
-      .catch(err => console.error(err));
-  };
-};

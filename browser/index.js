@@ -2,8 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AllBrunchPlacesContainer from './components/all-brunches/AllBrunchPlacesContainer';
-import SingleBrunchContainer from './components/single-brunch/SingleBrunchContainer';
+import AllLiosContainer from './components/all-lios/AllLiosContainer';
+import SingleLioContainer from './components/single-lio/SingleLioContainer';
 import Layout from './components/layout';
 import Home from './components/Home'
 import store from './store';
@@ -13,18 +13,15 @@ import { loadBrunchPlaces, loadOneBrunch, loadPhoto, selectPhoto } from './actio
 
 
 
-const onBrunchPlacesEnter = function (location) {
-  const thunk = loadBrunchPlaces(location);
+const onLiosEnter = function (location) {
+  const thunk = loadLios(location);
   store.dispatch(thunk);
 };
 
-const onSingleBrunchEnter = function (nextRouterState) {
-  store.dispatch(selectPhoto(null));
-  const brunchId = nextRouterState.params.brunchId;
-  const thunk = loadOneBrunch(brunchId);
-  const thunk2 = loadPhoto(brunchId);
+const onLioEnter = function (nextRouterState) {
+  const lioId = nextRouterState.params.lioId;
+  const thunk = loadOneLio(lioId);
   store.dispatch(thunk);
-  store.dispatch(thunk2);
 };
 
 ReactDOM.render(
@@ -34,8 +31,8 @@ ReactDOM.render(
         <Router history={ hashHistory }>
           <Route path="/" component= {Layout}>
             <Route path="home" component={Home} />
-            <Route path="brunchplaces/:location" component={AllBrunchPlacesContainer} onEnter={onBrunchPlacesEnter} />
-            <Route path="brunchplace/:brunchId" component={SingleBrunchContainer} onEnter={onSingleBrunchEnter} />
+            <Route path="lios/:location" component={AllLiosContainer} onEnter={onLiosEnter} />
+            <Route path="lio/:lioId" component={SingleLioContainer} onEnter={onLioEnter} />
             <IndexRoute component={Home}  />
           </Route>
         </Router>
